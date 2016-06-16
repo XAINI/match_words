@@ -16,6 +16,10 @@ class MatchWordsController < ApplicationController
     end
   end
 
+  def display_words
+    
+  end
+
   private
     def RegExp_split_words(str)
       data = []
