@@ -1,0 +1,22 @@
+- if !notice.nil?
+  = notice
+.matching_word
+  %h2 单词录入
+  .body-top-line
+    %hr
+  .body
+    .part-left
+      %textarea{rows:"20", cols:"70"}
+    .part-center
+      %hr{align: "center", width: "1px",size:"310px"}
+    .part-right
+      %textarea{rows:"20", cols:"70"}
+    .match-script
+      %button.begin_matching 将单词进行两两匹配
+  .body-footer-line
+    %hr
+
+  .footer-button
+    %button.submit_word{title: "完成单词的录入将所录入的单词保存"} 保存单词表
+  .footer-line
+    %hr
