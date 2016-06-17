@@ -45,9 +45,6 @@
     margin-top: 150px;
   }
 }
-.display_matching_word{
-  @include matchWords;
-}
 .matching_word{
   @include matchWords;
 }
