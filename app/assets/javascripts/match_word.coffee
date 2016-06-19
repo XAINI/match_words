@@ -2,16 +2,20 @@ class Matching
   constructor: (@$eml) ->
     @bind_event()
 
-  # 将单词通过发 ajax 到后台处理
-  through_ajax_get: (words)=>
-    jQuery.ajax
-      url: "/match_words/display_words",
-      method: "get",
-      data: {get_inserted_words: words}
-    .success (msg) =>
-      @display_ary_data(msg)
-    .error (msg) ->
-      console.log msg
+  # 将单词列表存成一个数组
+  RegExp_convert_to_ary: (words)=>
+    regexp = new RegExp('\n')
+    lits = words.split(regexp)
+    return lits
+
+  # 将单词两两组合 成一个新的数组
+  matching_word_to_new_ary: (word_list)=>
+    str_array = []
+    for word in word_list
+      word_shift = word_list.shift()
+      for other in word_list
+        str_array.push([word_shift,other])
+    return str_array
 
   # 将组合完成后的单词显示到页面
   display_ary_data: (ary)=>
@@ -23,7 +27,9 @@ class Matching
     # 进行单词两两组合
     @$eml.on "click", ".footer-button .submit_word", =>
       get_words = jQuery(".body .part-left textarea").val()
-      @through_ajax_get(get_words)
+      converted = @RegExp_convert_to_ary(get_words)
+      convert_to_new_array = @matching_word_to_new_ary(converted)
+      @display_ary_data(convert_to_new_array)
       jQuery(".body .part-left textarea").val("")
 
     # 交换单词前后顺序
