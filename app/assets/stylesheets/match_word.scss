@@ -48,3 +48,6 @@
 .matching_word{
   @include matchWords;
 }
+.insert-word-list{
+  @include matchWords;
+}
