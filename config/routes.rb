@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
   resources :match_words do
-    post :insert_word_list, on: :collection
-    delete :delete_word, on: :collection
+    collection do
+      get 'insert_word'
+      post 'insert_word_list'
+      delete 'delete_word'
+      get 'article'
+      post 'article_insert'
+    end
   end
 
 end

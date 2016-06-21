@@ -1,0 +1,20 @@
+.article_insert_page
+  %h2 文章录入
+  .body-top-line
+    %hr
+  .body
+    .part-left
+      %textarea{rows:"20", cols:"70"}
+    .part-center
+      %hr{align: "center", width: "1px",size:"310px"}
+    .part-right
+      %textarea{disabled: "disabled", rows:"20", cols:"70"}
+    .float-right-bottom-button
+      %button.disintegration-article{title: "将文章分解成一个词表", data:{title_type:"word_insert"}} 文章分词
+  .body-footer-line
+    %hr
+
+  .footer-button
+    %button.submit_article{title: "将输入的文章进行保存"} 保存文章
+  .footer-line
+    %hr

@@ -23,7 +23,7 @@
         margin-top: 0px;
       }
     }
-    .match-script{
+    .float-right-bottom-button{
       float:right;
       margin-right: 10px;
     }
@@ -45,9 +45,15 @@
     margin-top: 150px;
   }
 }
+// 单词匹配
 .matching_word{
   @include matchWords;
 }
+// 单词录入
 .insert-word-list{
+  @include matchWords;
+}
+// 文章录入
+.article_insert_page{
   @include matchWords;
 }

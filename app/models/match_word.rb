@@ -4,4 +4,6 @@ class MatchWord
 
   field :words, :type => Array
 
+  validates :words, presence: true
+
 end
