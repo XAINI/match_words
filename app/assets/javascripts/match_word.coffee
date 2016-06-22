@@ -145,15 +145,39 @@ class ArticleOperate
     .error (msg) ->
       alert msg
 
+  analysis_article: (atcv)=>
+    jQuery.ajax
+      url: "/match_words/analysis_article",
+      method: "post",
+      data: {article_value: atcv}
+    .success (msg) =>
+      @display_word_ary_data(msg.tokens)
+    .error (msg) ->
+      console.log msg
+
+  display_word_form_data: (ary)=>
+    console.log "hello"
+    # for coupe in ary
+    #   left_text = jQuery(".body .part-left textarea").val()
+    #   if left_text is ""
+    #     jQuery(".body .part-left textarea").val("#{coupe}")
+    #   else
+    #     jQuery(".body .part-left textarea").val(left_text + '\n'+"#{coupe}")
+
+      # jQuery(".body .part-left").append("<div class = 'line'></div>")
+      # jQuery(".body .part-left .line:last").append("<label class = 'word'>#{coupe.token}</label> ")
+
   bind_event: ->
     # 点击 "保存文章" 按钮获取到文章 并调用 ajax
     @$eml.on "click", ".footer-button .submit_article", =>
       article_value = jQuery(".body .part-left textarea").val()
       @insert_article_for_ajax(article_value)
 
-    @$eml.on "click", ".body .float-right-bottom-button .disintegration-article", ->
-      get_title_type = jQuery(this).closest(".disintegration-article").attr("data-title-type")
-      console.log get_title_type
+    @$eml.on "click", ".body .float-right-bottom-button .disintegration-article", (evt)=>
+      article_value = jQuery(".body .part-left textarea").val("")
+      get_title_type = jQuery(evt.target).closest(".disintegration-article").attr("data-title-type")
+      article_right_value = jQuery(".body .part-right textarea").val()
+      @analysis_article(article_right_value)
       # window.location.href = "/match_words/insert_word"
 
 

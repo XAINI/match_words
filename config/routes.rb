@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       delete 'delete_word'
       get 'article'
       post 'article_insert'
+      post 'analysis_article'
     end
   end
 

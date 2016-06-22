@@ -68,6 +68,19 @@ class MatchWordsController < ApplicationController
     end
   end
 
+  def analysis_article
+    get_article_value = params[:article_value]
+    command = %~
+      curl -XGET 'localhost:9200/_analyze' -d '
+      {
+        "analyzer" : "ik",
+        "text" : "#{get_article_value}"
+      }'
+    ~
+    analysis_article_to_word = `#{command}`
+    render json: analysis_article_to_word
+  end
+
   private
     # 正则表达式处理单词
     def RegExp_split_words_list(words)
