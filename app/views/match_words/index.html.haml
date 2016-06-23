@@ -1,5 +1,5 @@
-.matching_word
-  %h2 单词匹配
+.article_insert_page
+  %h2 文章分词
   .body-top-line
     %hr
   .body
@@ -8,12 +8,15 @@
     .part-center
       %hr{align: "center", width: "1px",size:"310px"}
     .part-right
+      %textarea{disabled: "disabled", rows:"20", cols:"70"}
+    .float-right-bottom-button
+      %button.disintegration-article{disabled: true, title: "将文章分解成一个词表", data:{title_type:"word_insert"}} 文章分词
   .body-footer-line
     %hr
 
   .footer-button
-    %button.check-in-article 文章录入
-    %button.check-in-insert 单词录入
-    %button.submit_word{title: "单词两两组合"} 单词配对
+    %button.submit-article{disabled: false,title: "将输入的文章进行保存"} 保存文章
+    %button.submit-word{disabled: true,title: "将输入的文章进行保存"} 保存单词
+    %button.match-word{disabled: true,title: "单词两两组合"} 单词配对
   .footer-line
     %hr
