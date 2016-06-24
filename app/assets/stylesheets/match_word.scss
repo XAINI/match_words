@@ -1,6 +1,7 @@
 @mixin matchWords(){
   width: 88%;
   margin: 0 auto;
+  font-family: 微软雅黑;
   .head-line{
     margin: 10px;
   }
@@ -39,6 +40,10 @@
 
   .footer-button{
     margin-top: 10px;
+    .open-permit-operation{
+      margin-top: 10px;
+      font-size: 14px;
+    }
   }
 
   .footer-line{

@@ -11,20 +11,21 @@ class ArticleOperate
       data: {article: article}
     .success (msg) =>
       if msg.message == "success"
+        alert msg.message
         @append_textarea_to_part_right(msg.saved_article.article)
       else
-        alert msg
+       alert msg
     .error (msg) ->
       alert msg
 
   # 添加左侧文本框将文章显示在文本框中
   append_textarea_to_part_right: (article_for_left)=>
-    @$eml.find(".footer-button .submit-article").attr("disabled", true)
+    @$eml.find(".footer-button .main-operation-button .submit-article").attr("disabled", true)
     @$eml.find(".body .float-right-bottom-button .disintegration-article").attr("disabled", false)
     if @$eml.find(".body .part-right textarea").length == 0
       jQuery(".body .part-right .line").remove()
       jQuery(".body .part-right .line-of-match").remove()
-      jQuery(".body .part-right").append("<textarea disabled = 'disabled' rows = '20' cols = '70'>#{article_for_left}</textarea>")
+      jQuery(".body .part-right").append("<textarea disabled = 'disabled' rows = '20' cols = '70' style = 'resize:none;'>#{article_for_left}</textarea>")
       jQuery(".body .float-right-bottom-button").append("<button class = 'disintegration-article'>文章分词</button>")
     else
       jQuery(".body .part-right textarea").val(article_for_left)
@@ -61,15 +62,15 @@ class ArticleOperate
     jQuery(".body .part-right textarea").remove()
     jQuery(".body .float-right-bottom-button button").remove()
     jQuery(".body .part-right .line-of-match").remove()
-    @$eml.find(".footer-button .submit-word").attr("disabled", true)
-    @$eml.find(".footer-button .match-word").attr("disabled", false)
+    @$eml.find(".footer-button .main-operation-button .submit-word").attr("disabled", true)
+    @$eml.find(".footer-button .main-operation-button .match-word").attr("disabled", false)
     for coupe in ary.words
       jQuery(".body .part-right").append("<div class = 'line'></div>")
       jQuery(".body .part-right .line:last").append("<label class = 'word'>#{coupe}</label> ").append("<button class = 'done'>Done</button> ").append("<button class = 'delete' id = '#{ary._id.$oid}'>Delete</button>")
 
   # 将分好的词显示在页面的左侧文本域
   display_word_form_data: (ary)=>
-    @$eml.find(".footer-button .submit-word").attr("disabled", false)
+    @$eml.find(".footer-button .main-operation-button .submit-word").attr("disabled", false)
     @$eml.find(".body .float-right-bottom-button .disintegration-article").attr("disabled", true)
     for coupe in ary
       left_text = jQuery(".body .part-left textarea").val()
@@ -113,9 +114,14 @@ class ArticleOperate
       jQuery(".body .part-right").append("<div class = 'line-of-match'></div>")
       jQuery(".body .part-right .line-of-match:last").append("<label class = 'word-one'>#{coupe[0]}</label> ").append("<label class = 'word-two'>#{coupe[1]}</label> ").append("<button class = 'exchange'>Exchange</button> ").append("<button class = 'done'>Done</button> ").append("<button class = 'delete'>Delete</button>")
 
+  open_permit_status: (article, word, match)=>
+    @$eml.find(".footer-button .main-operation-button .submit-article").attr("disabled", article)
+    @$eml.find(".footer-button .main-operation-button .submit-word").attr("disabled", word)
+    @$eml.find(".footer-button .main-operation-button .match-word").attr("disabled", match)
+
   bind_event: ->
     # 点击 "保存文章" 按钮获取到文章 并调用 ajax
-    @$eml.on "click", ".footer-button .submit-article", =>
+    @$eml.on "click", ".footer-button .main-operation-button .submit-article", =>
       article_value = jQuery(".body .part-left textarea").val()
       @insert_article_for_ajax(article_value)
 
@@ -127,7 +133,7 @@ class ArticleOperate
       @analysis_article(article_right_value)
 
     # 点击 "保存单词" 按钮保存单词表
-    @$eml.on "click", ".footer-button .submit-word", (evt)=>
+    @$eml.on "click", ".footer-button .main-operation-button .submit-word", (evt)=>
       jQuery(".body .part-right textarea").val("")
       word_list = jQuery(".body .part-left textarea").val()
       @save_word_list(word_list)
@@ -151,12 +157,13 @@ class ArticleOperate
       jQuery(evt.target).parent().remove()
 
     # 进行单词两两组合
-    @$eml.on "click", ".footer-button .match-word", =>
-      get_words = jQuery(".body .part-left textarea").val()
-      converted = @RegExp_convert_to_ary(get_words)
-      convert_to_new_array = @matching_word_to_new_ary(converted)
-      @display_ary_data(convert_to_new_array)
-      jQuery(".body .part-left textarea").val("")
+    @$eml.on "click", ".footer-button .main-operation-button .match-word", =>
+      get_words = @$eml.find(".body .part-left textarea").val()
+      if get_words.length != 0
+        converted = @RegExp_convert_to_ary(get_words)
+        convert_to_new_array = @matching_word_to_new_ary(converted)
+        @display_ary_data(convert_to_new_array)
+        jQuery(".body .part-left textarea").val("")
 
     # 交换单词组前后顺序
     @$eml.on "click", ".body .part-right .line-of-match .exchange", ->
@@ -180,6 +187,28 @@ class ArticleOperate
         jQuery(".body .part-left textarea").val(left_text + '\n' +first_word + ' ' +second_word)
 
       jQuery(evt.target).parent().remove()
+
+    # 将保存文章按钮放开
+    @$eml.on "click", ".footer-button .open-permit-operation .open-article-permit", =>
+      article = false
+      word = true
+      match = true
+      @open_permit_status(article, word, match)
+
+    # 将保存单词按钮放开
+    @$eml.on "click", ".footer-button .open-permit-operation .open-word-permit", =>
+      article = true
+      word = false
+      match = true
+      @open_permit_status(article, word, match)
+
+    # 将单词配对按钮放开
+    @$eml.on "click", ".footer-button .open-permit-operation .open-match-permit", =>
+      article = true
+      word = true
+      match = false
+      @open_permit_status(article, word, match)
+
 
 
 # 文章录入

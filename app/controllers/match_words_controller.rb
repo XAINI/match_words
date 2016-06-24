@@ -72,7 +72,7 @@ class MatchWordsController < ApplicationController
   def analysis_article
     whitespace = /\n/
     get_article_value = params[:article_value]
-    get_article_value = get_article_value.gsub(whitespace, '')
+    get_article_value = get_article_value.gsub(whitespace, ' ')
     command = %~
       curl -XGET 'localhost:9200/_analyze' -d '
       {
