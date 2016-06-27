@@ -8,11 +8,6 @@ class MatchWordsController < ApplicationController
     fetched_words = params[:need_insert_words]
     words_ary = RegExp_split_words_list(fetched_words)
     db_data_ary = match_data_from_db()
-
-    if fetched_words == ""
-      render json: "录入内容不能为空".to_json
-      return
-    end
     if words_ary == []
       render json: "请输入中文或英文词".to_json
       return
@@ -52,11 +47,6 @@ class MatchWordsController < ApplicationController
   # 文章录入
   def article_insert
     get_article = params[:article]
-    if get_article == ""
-      render json: "录入的文章不能为空".to_json
-      return
-    end
-
     @article = Article.create(article: get_article)
     if @article.save
       render json:{

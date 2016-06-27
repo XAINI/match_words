@@ -123,7 +123,10 @@ class ArticleOperate
     # 点击 "保存文章" 按钮获取到文章 并调用 ajax
     @$eml.on "click", ".footer-button .main-operation-button .submit-article", =>
       article_value = jQuery(".body .part-left textarea").val()
-      @insert_article_for_ajax(article_value)
+      if article_value == ""
+        alert "要保存的文章内容不能为空"
+      else
+        @insert_article_for_ajax(article_value)
 
     # 点击分词按钮对文章进行分词
     @$eml.on "click", ".body .float-right-bottom-button .disintegration-article", (evt)=>
@@ -136,7 +139,10 @@ class ArticleOperate
     @$eml.on "click", ".footer-button .main-operation-button .submit-word", (evt)=>
       jQuery(".body .part-right textarea").val("")
       word_list = jQuery(".body .part-left textarea").val()
-      @save_word_list(word_list)
+      if word_list == ""
+        alert "要保存的单词不能为空"
+      else
+        @save_word_list(word_list)
 
      # 确认输出单词
     @$eml.on "click", ".body .part-right .line .done", ->
@@ -164,6 +170,8 @@ class ArticleOperate
         convert_to_new_array = @matching_word_to_new_ary(converted)
         @display_ary_data(convert_to_new_array)
         jQuery(".body .part-left textarea").val("")
+      else
+       alert "要进行配对的内容不能为空"
 
     # 交换单词组前后顺序
     @$eml.on "click", ".body .part-right .line-of-match .exchange", ->
